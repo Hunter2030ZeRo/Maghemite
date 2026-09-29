@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "test.project-language",
+  "version": "0.1.0",
+  "sdkVersion": "0.1.0",
+  "runtime": "deno",
+  "entry": "main.ts",
+  "capabilities": [
+    "documents.read",
+    "files.read"
+  ],
+  "contributions": {
+    "commands": [
+      {
+        "id": "test.project-language.query",
+        "title": "Project language fixture"
+      }
+    ],
+    "languages": [
+      {
+        "id": "project-fixture",
+        "name": "Project fixture",
+        "extensions": [
+          ".fixture"
+        ],
+        "command": "test.project-language.query",
+        "protocol": 2,
+        "scope": "project",
+        "features": [
+          "definition",
+          "references",
+          "rename",
+          "completion",
+          "hover"
+        ]
+      }
+    ]
+  }
+}

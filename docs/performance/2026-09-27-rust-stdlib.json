@@ -1,0 +1,139 @@
+{
+  "scope": "isolated WASM worker only; not whole application or representative large-workspace benchmark",
+  "platform": "Linux-7.2.8-1-cachyos-x86_64-with-glibc2.44",
+  "componentBytes": 21922629,
+  "componentSha256": "249f1b9cd716bd37cceff027f4bba72fd8b49d60d7659ecd4e905964527691e9",
+  "source": "modules-sdk/rust/src/lib.rs",
+  "sourceBytes": 1366,
+  "requests": 20,
+  "runs": [
+    {
+      "cache": "cold",
+      "activationMs": 16263.638911000271,
+      "firstHoverAfterActivationMs": 3735.909295000056,
+      "transactionMedianMs": 1.7351739993500814,
+      "transactionP95Ms": 3.317507000247133,
+      "memory": {
+        "VmHWMKiB": 713048,
+        "VmRSSKiB": 474664,
+        "RssAnonKiB": 455640
+      },
+      "runtimePhases": [
+        {
+          "anonKiB": 712,
+          "cacheHits": null,
+          "cacheMisses": null,
+          "elapsedMs": 0.08721,
+          "maghemiteStartup": "before-compile",
+          "peakRssKiB": 5680,
+          "rssKiB": 5680,
+          "threads": 1
+        },
+        {
+          "anonKiB": 628616,
+          "cacheHits": 0,
+          "cacheMisses": 1,
+          "elapsedMs": 2963.117839,
+          "maghemiteStartup": "compiled",
+          "peakRssKiB": 713048,
+          "rssKiB": 643272,
+          "threads": 18
+        },
+        {
+          "anonKiB": 297428,
+          "cacheHits": 0,
+          "cacheMisses": 1,
+          "elapsedMs": 2981.984702,
+          "maghemiteStartup": "compiler-released",
+          "peakRssKiB": 713048,
+          "rssKiB": 312196,
+          "threads": 2
+        },
+        {
+          "anonKiB": 297628,
+          "cacheHits": 0,
+          "cacheMisses": 1,
+          "elapsedMs": 2984.597334,
+          "maghemiteStartup": "instantiated",
+          "peakRssKiB": 713048,
+          "rssKiB": 313536,
+          "threads": 2
+        },
+        {
+          "anonKiB": 455280,
+          "cacheHits": null,
+          "cacheMisses": null,
+          "elapsedMs": 16260.2923,
+          "maghemiteStartup": "activated",
+          "peakRssKiB": 713048,
+          "rssKiB": 474064,
+          "threads": 3
+        }
+      ]
+    },
+    {
+      "cache": "warm",
+      "activationMs": 11293.69286200017,
+      "firstHoverAfterActivationMs": 3375.417617000494,
+      "transactionMedianMs": 1.348296999822196,
+      "transactionP95Ms": 2.3791680005160742,
+      "memory": {
+        "VmHWMKiB": 226432,
+        "VmRSSKiB": 226432,
+        "RssAnonKiB": 212040
+      },
+      "runtimePhases": [
+        {
+          "anonKiB": 712,
+          "cacheHits": null,
+          "cacheMisses": null,
+          "elapsedMs": 0.090145,
+          "maghemiteStartup": "before-compile",
+          "peakRssKiB": 5632,
+          "rssKiB": 5632,
+          "threads": 1
+        },
+        {
+          "anonKiB": 53804,
+          "cacheHits": 1,
+          "cacheMisses": 0,
+          "elapsedMs": 127.07765900000001,
+          "maghemiteStartup": "compiled",
+          "peakRssKiB": 136080,
+          "rssKiB": 63720,
+          "threads": 18
+        },
+        {
+          "anonKiB": 53832,
+          "cacheHits": 1,
+          "cacheMisses": 0,
+          "elapsedMs": 128.346724,
+          "maghemiteStartup": "compiler-released",
+          "peakRssKiB": 136080,
+          "rssKiB": 63812,
+          "threads": 2
+        },
+        {
+          "anonKiB": 54032,
+          "cacheHits": 1,
+          "cacheMisses": 0,
+          "elapsedMs": 130.117762,
+          "maghemiteStartup": "instantiated",
+          "peakRssKiB": 136080,
+          "rssKiB": 65004,
+          "threads": 2
+        },
+        {
+          "anonKiB": 211684,
+          "cacheHits": null,
+          "cacheMisses": null,
+          "elapsedMs": 11291.545749,
+          "maghemiteStartup": "activated",
+          "peakRssKiB": 225696,
+          "rssKiB": 225696,
+          "threads": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+.editor-groups {
+  flex: 1;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+.editor-group {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 0;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  border-right: 1px solid var(--line);
+  container-type: inline-size;
+}
+.editor-group:last-of-type { border-right: 0; }
+.editor-group-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 4px;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--subtle-line);
+  background: var(--rail);
+  color: var(--muted);
+}
+.active-group > .editor-group-heading { background: var(--selected); color: var(--text); }
+.group-focus { font-size: 10px; padding: 4px; border-radius: var(--radius-sm); }
+.group-focus:hover { background: var(--hover); }
+.editor-group-actions { display: flex; align-items: center; gap: 4px; }
+.editor-group-actions .icon-button { width: 24px; height: 24px; }
+.group-move {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  max-width: 112px;
+  font: 10px var(--font-ui);
+  padding: 4px;
+}
+.editor-group .editor-content { min-width: 0; overflow: hidden; }
+.editor-view-host, .editor-view-host > div { height: 100%; min-height: 0; min-width: 0; }
+.editor-view-host[hidden] { display: none; }
+.editor-group .tab-wrapper.active::before { display: none; }
+.editor-group .tab-wrapper.active { background: var(--selected); }
+.editor-group .editor-tab { padding-left: 12px; max-width: 240px; }
+.editor-group .editor-tab > span:not(.dirty-dot) { overflow: hidden; text-overflow: ellipsis; }
+.editor-group .document-toolbar { height: auto; min-height: 42px; padding: 4px 12px; flex-wrap: wrap; }
+.editor-group .document-actions { margin-left: auto; }
+.editor-group .reading-surface { min-height: 0; padding: 24px 16px; }
+.editor-group .empty-editor { overflow: auto; padding: 16px; }
+.editor-group .empty-editor h1 { font-size: 18px; }
+.editor-groups.stacked { flex-direction: column; }
+.editor-groups.stacked > .editor-group { border-right: 0; border-bottom: 1px solid var(--line); }
+.editor-group > .resize-handle.horizontal { top: auto; bottom: -2px; }
+@container (max-width: 360px) {
+  .editor-group .document-toolbar { gap: 4px; }
+  .editor-group .breadcrumbs { flex-basis: 100%; }
+  .editor-group .document-actions { flex-wrap: wrap; justify-content: flex-end; }
+  .editor-group .document-eyebrow { flex-wrap: wrap; gap: 8px; letter-spacing: 0; }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "renderer",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:themes": "VITE_THEME_CATALOG_URL=/api/themes vite",
+    "build": "tsc -b && vite build",
+    "build:desktop": "VITE_THEME_CATALOG_URL=/api/themes deno task build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "deno test --conditions=browser --unstable-sloppy-imports --allow-read=src,tests tests/"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.11.1",
+    "@codemirror/lang-markdown": "^6.5.2",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/lint": "^6.9.7",
+    "@codemirror/search": "^6.7.2",
+    "@codemirror/state": "^6.7.6",
+    "@codemirror/view": "^6.43.13",
+    "@lezer/highlight": "^1.2.4",
+    "markdown-it": "^15.0.2",
+    "monaco-editor": "0.57.0",
+    "solid-js": "^1.9.13",
+    "@xterm/xterm": "^6.0.0",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/addon-webgl": "0.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vite-plugin-solid": "^2.11.14"
+  }
+}

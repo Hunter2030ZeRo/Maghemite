@@ -1,0 +1,89 @@
+.module-manager .module-resource-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.module-manager .module-resource-summary strong {
+  font-size: 12px;
+}
+
+.module-manager .module-resource-summary p {
+  margin: 0;
+}
+
+.module-manager .module-measurement-details {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.module-manager .module-measurement-details summary {
+  cursor: pointer;
+  color: var(--text);
+}
+
+.module-manager .module-measurement-details > p {
+  margin-top: 8px;
+}
+
+.module-manager .module-resource-values {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 4px 8px;
+  margin: 0;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.module-manager .module-resource-values dt {
+  color: var(--muted);
+}
+
+.module-manager .module-resource-values dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.module-manager .module-actions,
+.module-manager .module-list-heading {
+  flex-wrap: wrap;
+}
+
+.module-manager .module-failure {
+  margin: 0;
+  padding: 8px;
+  background: var(--warning-bg);
+  color: var(--warning-text);
+  font-size: 11px;
+  white-space: pre-wrap;
+}
+
+.module-manager .module-review {
+  border-color: var(--line);
+  background: var(--surface);
+}
+
+.module-manager .module-installation {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.module-manager .module-installation p {
+  margin: 0;
+}
+
+.module-manager button:not(:disabled):hover {
+  background: var(--hover);
+}
+
+.module-manager button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

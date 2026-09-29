@@ -1,0 +1,54 @@
+{
+  "desktop": {
+    "app": {
+      "name": "Maghemite",
+      "identifier": "dev.maghemite.app"
+    },
+    "backend": "cef"
+  },
+  "imports": {
+    "@codemirror/lang-markdown": "npm:@codemirror/lang-markdown@^6.5.2",
+    "@xterm/addon-webgl": "npm:@xterm/addon-webgl@^0.19.0",
+    "codemirror": "npm:codemirror@^6.0.2",
+    "markdown-it": "npm:markdown-it@^15.0.2",
+    "monaco-editor": "npm:monaco-editor@0.57.0",
+    "typescript": "npm:typescript@^7.0.2"
+  },
+  "tasks": {
+    "build": "deno task --cwd renderer build:desktop",
+    "desktop:test": "deno test --allow-read --allow-write src/desktop/renderer_test.ts",
+    "desktop:dev": "deno run --allow-read --allow-write --allow-env --allow-ffi --allow-run --allow-net=127.0.0.1 src/desktop/main.ts",
+    "modules": "deno run --allow-read --allow-write --allow-run --allow-env --allow-net modules-sdk/tooling/cli.ts",
+    "modules:test": "deno test --allow-read --allow-write --allow-run --allow-env --allow-ffi --allow-net=127.0.0.1 src/modules/host/host_test.ts src/modules/host/performance_test.ts src/modules/host/themes_test.ts src/modules/host/async_test.ts src/modules/host/tasks_test.ts src/modules/host/application_test.ts src/modules/host/search_permissions_test.ts src/modules/host/wasm_tools_test.ts src/modules/host/aot_test.ts src/modules/host/aot_preparation_test.ts src/modules/host/aot_execution_test.ts src/modules/host/aot_development_test.ts modules/language-common/transport_test.ts",
+    "modules:check": "deno check src/modules/host/host.ts src/modules/runtimes/deno/worker.ts modules-sdk/tooling/cli.ts src/desktop/main.ts",
+    "modules:conformance": "deno test --allow-read --allow-write --allow-run --allow-env --allow-net modules-sdk/tooling/conformance_test.ts",
+    "modules:async-test": "deno test --allow-read --allow-write --allow-run --allow-env modules-sdk/tooling/async_native_test.ts",
+    "modules:perf": "deno run -A modules-sdk/tooling/performance.ts",
+    "rust:build": "deno task modules build modules/rust",
+    "rust:test": "deno test --allow-read --allow-write --allow-run src/desktop/languages_test.ts modules/rust/project_test.ts",
+    "rust:package": "deno run --allow-read --allow-write --allow-run --allow-env modules/rust/package.ts",
+    "modules:csharp-test": "deno test --allow-read --allow-write --allow-run --allow-env --allow-net modules-sdk/tooling/async_csharp_test.ts",
+    "modules:tasks-test": "deno test --allow-read --allow-write --allow-run --allow-env --allow-net modules-sdk/tooling/tasks_test.ts",
+    "modules:app-test": "deno test --allow-read --allow-write --allow-run --allow-env --allow-net modules-sdk/tooling/app_test.ts",
+    "services:test": "deno test --allow-read --allow-write --allow-env --allow-ffi --allow-run src/core/services/services_test.ts src/core/services/search_test.ts src/core/services/file_operations_test.ts src/core/services/process_lifecycle_test.ts src/core/services/pty_test.ts",
+    "project:test": "deno test --allow-read --allow-write --allow-env --allow-ffi --allow-run --allow-net=127.0.0.1 src/desktop/project_languages_test.ts src/desktop/project_contract_test.ts src/desktop/aot_contract_test.ts",
+    "resources:test": "deno test --allow-read --allow-write --allow-env --allow-ffi --allow-run src/modules/host/resources_test.ts src/modules/host/resources_aot_test.ts src/modules/host/resources_native_test.ts src/modules/host/process_usage_test.ts src/desktop/module_lifecycle_test.ts",
+    "desktop:prepare-pty": "deno run --allow-read --allow-write --allow-env --allow-ffi --allow-net=github.com,release-assets.githubusercontent.com src/desktop/prepare_pty.ts",
+    "workspace:test": "deno test --allow-read --allow-write --allow-env --allow-ffi --allow-run --allow-net=127.0.0.1 src/desktop/workspaces_test.ts src/desktop/preferences_test.ts src/desktop/workspace_test.ts src/desktop/recovery_test.ts src/desktop/module_manager_test.ts src/desktop/module_installation_test.ts src/desktop/module_installation_transport_test.ts src/desktop/main_aot_shutdown_test.ts src/desktop/aot_storage_boundary_test.ts src/desktop/file_operations_test.ts src/desktop/search_lifecycle_test.ts",
+    "desktop:window": "deno desktop --hmr --backend=cef --allow-read --allow-write --allow-env --allow-ffi --allow-run --allow-net=127.0.0.1 src/desktop/window.ts",
+    "desktop:package": "deno run --allow-read --allow-write --allow-env --allow-run --allow-sys=uid,gid src/desktop/package.ts",
+    "desktop:package:test": "deno test --allow-read --allow-write --allow-run --allow-env src/desktop/package_assets_test.ts",
+    "python:prepare": "deno run --allow-read --allow-write --allow-run=tar --allow-net=github.com,codeload.github.com modules/python/prepare.ts",
+    "python:build": "deno task python:prepare && deno task modules build modules/python",
+    "python:test": "deno test --allow-read --allow-write --allow-run modules/python/python_test.ts",
+    "python:package": "deno run --allow-read --allow-write --allow-run --allow-env modules/python/package.ts",
+    "javascript:build": "deno run --allow-read --allow-write --allow-run --allow-env --allow-net=github.com,codeload.github.com modules/javascript/build.ts",
+    "javascript:test": "deno test --allow-read --allow-write --allow-run modules/javascript/javascript_test.ts",
+    "javascript:package": "deno run --allow-read --allow-write --allow-run --allow-env modules/javascript/package.ts",
+    "cpp:build": "deno run --allow-read --allow-write --allow-run --allow-env --allow-net=github.com,codeload.github.com modules/cpp/build.ts",
+    "cpp:test": "deno test --allow-read --allow-write --allow-run modules/cpp/cpp_test.ts",
+    "cpp:package": "deno run --allow-read --allow-write --allow-run --allow-env modules/cpp/package.ts",
+    "modules:runtime-perf": "deno run -A modules-sdk/tooling/runtime_performance.ts"
+  },
+  "version": "0.1.0"
+}

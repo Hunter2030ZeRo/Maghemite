@@ -1,0 +1,38 @@
+.document-toolbar:has(.attachment-control) {
+  position: relative;
+}
+.attachment-control {
+  display: flex;
+  align-items: center;
+}
+.attachment-progress {
+  color: var(--muted);
+  font-size: 11px;
+  padding-inline: 4px;
+}
+.attachment-error {
+  position: absolute;
+  z-index: 20;
+  inset-block-start: 100%;
+  inset-inline-end: 8px;
+  width: min(320px, calc(100% - 16px));
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.attachment-error p { margin: 0 0 8px; }
+.attachment-error label { display: grid; gap: 4px; }
+.attachment-error input {
+  width: 100%;
+  min-width: 0;
+  padding: 8px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-family: var(--font-code);
+  font-size: 11px;
+}

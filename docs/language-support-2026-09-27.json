@@ -1,0 +1,41 @@
+{
+  "javascript": {
+    "version": "0.1.0-alpha.1",
+    "runtime": "deno",
+    "files": 26,
+    "bytes": 60656896,
+    "engines": [
+      {
+        "id": "typescript",
+        "bytes": 47552164,
+        "sha256": "477c48809258c414f9197edcfdd7696b51c81fec5547e3b60f492d1b6b1043d8",
+        "matches": true
+      },
+      {
+        "id": "oxc",
+        "bytes": 11595627,
+        "sha256": "ce2edd2b476aa62585ce3fe7084f49614b771842cd6622267514e4da5ef396eb",
+        "matches": true
+      }
+    ]
+  },
+  "cpp": {
+    "version": "0.1.0-alpha.1",
+    "runtime": "deno",
+    "files": 2212,
+    "bytes": 98135915,
+    "engines": [
+      {
+        "id": "clangd",
+        "bytes": 76838574,
+        "sha256": "43e687c7b4017122c49ceec096a5c975d55662022b12176ae2554d90dd7974b3",
+        "matches": true
+      }
+    ]
+  },
+  "desktop": {
+    "path": "/home/entity27th/Maghemite/build/packages/maghemite-0.1.0-9-x86_64.pkg.tar.zst",
+    "bytes": 225804857,
+    "sha256": "04a50cc84ec2a06f6935e7ec839821c4c14994e532efa3b42b43f725f6796747"
+  }
+}

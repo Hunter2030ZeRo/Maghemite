@@ -1,0 +1,208 @@
+{
+  "measuredAt": "2026-09-26T15:01:07.897484+00:00",
+  "kind": "existing-release-disk-inventory",
+  "release": "0.1.0-2",
+  "platform": "linux-x86_64",
+  "notes": [
+    "Existing release artifacts, not rebuilt in this pass.",
+    "Views overlap and MUST NOT be added together.",
+    "File byte sizes are disk/package measurements, not resident memory.",
+    "Symlinks are not followed; allocated size deduplicates hard links only.",
+    "No live application memory measurement was performed."
+  ],
+  "artifacts": [
+    {
+      "path": "build/packages/maghemite_0.1.0-2_amd64.deb",
+      "bytes": 171486048
+    },
+    {
+      "path": "build/packages/maghemite-0.1.0-2.x86_64.rpm",
+      "bytes": 203360565
+    },
+    {
+      "path": "build/packages/maghemite-0.1.0-2-x86_64.pkg.tar.zst",
+      "bytes": 225505885
+    },
+    {
+      "path": "build/Maghemite.AppImage",
+      "bytes": 246114808
+    }
+  ],
+  "views": [
+    {
+      "path": "build/linux/root",
+      "available": true,
+      "logicalBytes": 606250403,
+      "allocatedBytesDeduplicatedByInode": 607141888,
+      "fileCount": 266,
+      "symlinkCount": 1,
+      "largestFiles": [
+        {
+          "path": "usr/lib/maghemite/libcef.so",
+          "bytes": 256322688
+        },
+        {
+          "path": "usr/lib/maghemite/assets/deno",
+          "bytes": 95830104
+        },
+        {
+          "path": "usr/lib/maghemite/Maghemite.so",
+          "bytes": 82377656
+        },
+        {
+          "path": "usr/lib/maghemite/assets/maghemite-wasm-host",
+          "bytes": 32778792
+        },
+        {
+          "path": "usr/lib/maghemite/libGLESv2.so",
+          "bytes": 19971480
+        },
+        {
+          "path": "usr/lib/maghemite/libvk_swiftshader.so",
+          "bytes": 16653712
+        },
+        {
+          "path": "usr/lib/maghemite/resources.pak",
+          "bytes": 15533415
+        },
+        {
+          "path": "usr/lib/maghemite/assets/libmaghemite_core.so",
+          "bytes": 11387800
+        },
+        {
+          "path": "usr/lib/maghemite/icudtl.dat",
+          "bytes": 10876560
+        },
+        {
+          "path": "usr/lib/maghemite/assets/renderer/assets/monaco-CT8bMdw9.js",
+          "bytes": 3391717
+        },
+        {
+          "path": "usr/lib/maghemite/locales/ml.pak",
+          "bytes": 1767342
+        },
+        {
+          "path": "usr/lib/maghemite/locales/ta.pak",
+          "bytes": 1765101
+        }
+      ]
+    },
+    {
+      "path": "build/desktop-assets",
+      "available": true,
+      "logicalBytes": 146941925,
+      "allocatedBytesDeduplicatedByInode": 147001344,
+      "fileCount": 28,
+      "symlinkCount": 0,
+      "largestFiles": [
+        {
+          "path": "deno",
+          "bytes": 95830104
+        },
+        {
+          "path": "maghemite-wasm-host",
+          "bytes": 32778792
+        },
+        {
+          "path": "libmaghemite_core.so",
+          "bytes": 11387800
+        },
+        {
+          "path": "renderer/assets/monaco-CT8bMdw9.js",
+          "bytes": 3391717
+        },
+        {
+          "path": "libpty.so",
+          "bytes": 761232
+        },
+        {
+          "path": "renderer/assets/jsonMode-Cyhyf7jk.js",
+          "bytes": 586361
+        },
+        {
+          "path": "renderer/assets/codemirror-Da3DJsr4.js",
+          "bytes": 569277
+        },
+        {
+          "path": "renderer/assets/json.worker-CrsoSj5O.js",
+          "bytes": 433295
+        },
+        {
+          "path": "renderer/assets/TerminalPanel-DZVSc5n4.js",
+          "bytes": 334880
+        },
+        {
+          "path": "renderer/assets/editor.worker-DWPaKKV_.js",
+          "bytes": 303930
+        },
+        {
+          "path": "renderer/assets/monaco-VQijkroJ.css",
+          "bytes": 159610
+        },
+        {
+          "path": "renderer/assets/codicon-DF1abBS2.ttf",
+          "bytes": 153228
+        }
+      ]
+    },
+    {
+      "path": "renderer/dist",
+      "available": true,
+      "logicalBytes": 6142345,
+      "allocatedBytesDeduplicatedByInode": 6176768,
+      "fileCount": 16,
+      "symlinkCount": 0,
+      "largestFiles": [
+        {
+          "path": "assets/monaco-CT8bMdw9.js",
+          "bytes": 3391717
+        },
+        {
+          "path": "assets/jsonMode-Cyhyf7jk.js",
+          "bytes": 586361
+        },
+        {
+          "path": "assets/codemirror-Da3DJsr4.js",
+          "bytes": 569277
+        },
+        {
+          "path": "assets/json.worker-CrsoSj5O.js",
+          "bytes": 433295
+        },
+        {
+          "path": "assets/TerminalPanel-DZVSc5n4.js",
+          "bytes": 334880
+        },
+        {
+          "path": "assets/editor.worker-DWPaKKV_.js",
+          "bytes": 303930
+        },
+        {
+          "path": "assets/monaco-VQijkroJ.css",
+          "bytes": 159610
+        },
+        {
+          "path": "assets/codicon-DF1abBS2.ttf",
+          "bytes": 153228
+        },
+        {
+          "path": "assets/index-DbGRzmqY.js",
+          "bytes": 140735
+        },
+        {
+          "path": "assets/index-dpwgWAlE.css",
+          "bytes": 31878
+        },
+        {
+          "path": "assets/jsonMode-6e_paNRz.css",
+          "bytes": 26410
+        },
+        {
+          "path": "icons.svg",
+          "bytes": 5031
+        }
+      ]
+    }
+  ],
+  "processMemory": null
+}

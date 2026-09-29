@@ -1,0 +1,281 @@
+.disk-explorer {
+  min-width: 0;
+}
+
+.disk-explorer .heading-actions {
+  align-items: center;
+  gap: 2px;
+}
+
+.disk-explorer .file-trash-entry {
+  padding: 4px 6px;
+}
+
+.file-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  margin: 1px 8px 1px 0;
+  min-width: 0;
+}
+
+.file-entry > .file-row {
+  width: 100%;
+  margin: 0;
+  min-width: 0;
+}
+
+.file-entry > .file-row:focus-visible {
+  position: relative;
+}
+
+.file-actions,
+.file-actions-menu {
+  display: contents;
+}
+
+.file-actions-trigger {
+  width: 30px;
+  height: 30px;
+}
+
+.file-actions-trigger .icon {
+  width: 14px;
+  height: 14px;
+}
+
+.file-action-choices,
+.file-operation-form {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin: 4px 0 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.file-action-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+}
+
+.file-operation-form {
+  padding: 12px;
+}
+
+.file-operation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.file-operation-heading strong,
+.file-trash-confirmation > strong {
+  color: var(--bright);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.file-operation-kind,
+.file-operation-help,
+.file-trash-confirmation p,
+.trash-panel header p,
+.trash-entry-summary span,
+.trash-entry label,
+.trash-status {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.file-operation-kind {
+  margin: 2px 0 8px;
+}
+
+.file-path-pair {
+  margin: 0;
+}
+
+.file-path-pair > div + div {
+  margin-top: 8px;
+}
+
+.file-path-pair dt,
+.trash-entry label {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.file-path-pair dd {
+  margin: 0;
+  min-width: 0;
+}
+
+.file-path-pair dd:first-of-type,
+.file-operation-path,
+.trash-entry-summary strong {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-break: auto;
+  font-family: var(--font-code);
+}
+
+.file-operation-form input:not([type="checkbox"]),
+.trash-entry input {
+  width: 100%;
+  min-width: 0;
+  color: var(--text);
+  background: var(--sidebar);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 7px 8px;
+  font: 11px var(--font-code);
+}
+
+.file-operation-help {
+  margin: 6px 0 8px;
+}
+
+.file-operation-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.file-operation-checkbox input {
+  accent-color: var(--accent);
+}
+
+.file-operation-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.file-operation-buttons .text-button {
+  margin: 0;
+}
+
+.file-operation-error,
+.trash-list-error p {
+  margin: 8px 0 0;
+  overflow-wrap: anywhere;
+  color: var(--warning-text);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.file-trash-confirmation {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.file-trash-confirmation p,
+.file-trash-confirmation .text-button {
+  color: inherit;
+}
+
+.file-operation-path {
+  margin: 8px 0;
+}
+
+.trash-panel {
+  min-width: 0;
+  outline: none;
+}
+
+.trash-panel > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px 12px;
+  border-bottom: 1px solid var(--subtle-line);
+}
+
+.trash-panel h2 {
+  margin: 0;
+  color: var(--bright);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.trash-panel header p {
+  margin: 4px 0 0;
+}
+
+.trash-entry {
+  padding: 12px;
+  border-bottom: 1px solid var(--subtle-line);
+}
+
+.trash-entry-summary {
+  min-width: 0;
+}
+
+.trash-entry-summary strong,
+.trash-entry-summary span {
+  display: block;
+}
+
+.trash-entry-summary strong {
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.trash-entry-summary span {
+  margin-top: 4px;
+}
+
+.trash-entry form {
+  margin-top: 8px;
+}
+
+.trash-entry label {
+  display: block;
+}
+
+.trash-entry label span {
+  color: var(--faint);
+}
+
+.trash-load-more {
+  margin: 8px 12px;
+}
+
+.trash-list-error {
+  padding: 0 12px 8px;
+}
+
+.trash-list-error .text-button {
+  margin-top: 4px;
+}
+
+.trash-status {
+  margin: 0;
+  padding: 0 12px 12px;
+}
+
+@media (max-width: 420px) {
+  .file-operation-form,
+  .trash-entry {
+    padding: 8px;
+  }
+
+  .file-operation-buttons .text-button {
+    flex: 1 1 auto;
+  }
+
+  .file-path-pair dd:first-of-type,
+  .file-operation-path,
+  .trash-entry-summary strong {
+    font-size: 10px;
+  }
+}

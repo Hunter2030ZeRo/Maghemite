@@ -1,0 +1,10 @@
+.code-links { padding: 12px 16px; border-top: 1px solid var(--line); }
+.code-links h3 { display: flex; justify-content: space-between; margin: 0 0 12px; font-size: 11px; font-weight: 500; }
+.code-links h3 span, .code-links p, .code-links small { color: var(--muted); font-size: 11px; }
+.code-links label { display: grid; gap: 4px; margin-block-end: 8px; color: var(--muted); font-size: 11px; }
+.code-links select { width: 100%; min-width: 0; background: var(--bg); color: var(--text); border: 1px solid var(--line); padding: 4px; font: inherit; }
+.code-links [role="alert"] { color: var(--warning-text); background: var(--warning-bg); padding: 8px; overflow-wrap: anywhere; }
+.code-links .code-note-link { display: grid; gap: 4px; width: 100%; padding: 8px 0; text-align: left; border: 0; background: transparent; overflow-wrap: anywhere; }
+.code-note-link strong { font-size: 12px; font-weight: 500; }
+.code-note-link span { color: var(--muted); font-family: var(--font-code); font-size: 11px; }
+.code-note-link:hover { color: var(--bright); }

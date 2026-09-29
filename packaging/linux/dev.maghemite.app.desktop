@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Maghemite
+GenericName=Code and knowledge workspace
+Comment=Edit code and notes in one workspace
+Exec=maghemite
+TryExec=maghemite
+Icon=dev.maghemite.app
+Terminal=false
+Categories=Development;IDE;Utility;TextEditor;
+Keywords=code;markdown;notes;workspace;
+StartupWMClass=dev.maghemite.app

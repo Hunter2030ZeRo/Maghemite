@@ -1,0 +1,6 @@
+/build/
+/modules/
+/modules-sdk/
+/native/target/
+/renderer/dist/
+/renderer/node_modules/

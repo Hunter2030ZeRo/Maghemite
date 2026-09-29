@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "test.lifecycle",
+  "version": "0.1.0",
+  "sdkVersion": "0.1.0",
+  "runtime": "deno",
+  "entry": "main.ts",
+  "capabilities": ["tasks.progress", "tasks.run-worker"],
+  "workers": ["test.lifecycle.worker"],
+  "contributions": {
+    "commands": [
+      { "id": "test.lifecycle.count", "title": "Fixture: count guest calls" },
+      { "id": "test.lifecycle.hold", "title": "Fixture: hold until restart" },
+      { "id": "test.lifecycle.fail", "title": "Fixture: fail guest" },
+      { "id": "test.lifecycle.workers", "title": "Fixture: hold two workers" },
+      { "id": "test.lifecycle.worker", "title": "Fixture: worker" }
+    ]
+  }
+}
