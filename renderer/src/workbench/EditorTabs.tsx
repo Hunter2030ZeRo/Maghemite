@@ -111,7 +111,7 @@ export function EditorTabs(props: {
           }}
         </For>
       </div>
-      <IconButton name="plus" label="Create new note" onClick={() => {
+      <IconButton name="plus" label={w.state.mode === "knowledge" ? "Create new note" : "Create new code file"} onClick={() => {
         w.focusGroup(props.group.id);
         props.onCreate();
       }} />

@@ -115,7 +115,9 @@ export function DiskExplorer(props: { workspace: Workspace }) {
               }}
             >
               <label for="new-workspace-path">
-                {creating() === "file" ? "New file path" : "New folder path"}
+                {creating() === "file"
+                  ? (w.state.mode === "knowledge" ? "New note path" : "New code file path")
+                  : "New folder path"}
               </label>
               <input
                 id="new-workspace-path"
@@ -124,7 +126,7 @@ export function DiskExplorer(props: { workspace: Workspace }) {
                 value={path()}
                 disabled={busy() || w.files.busy()}
                 placeholder={creating() === "file"
-                  ? "notes/Idea.md"
+                  ? (w.state.mode === "knowledge" ? "notes/Idea.md" : "src/main.ts")
                   : "notes"}
                 onInput={(event) => setPath(event.currentTarget.value)}
               />

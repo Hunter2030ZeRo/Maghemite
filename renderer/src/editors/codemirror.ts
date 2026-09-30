@@ -210,6 +210,8 @@ export function createEditor(
       );
     },
     focus: () => editor.focus(),
+    undo: () => { historyCommand(true); },
+    redo: () => { historyCommand(false); },
     visible: (visible) => { if (visible) restoreScroll(); },
     layout: () => { editor.requestMeasure(); restoreScroll(); },
     dispose() {

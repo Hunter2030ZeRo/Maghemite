@@ -443,6 +443,8 @@ export function createEditor(
       mount();
       editor?.focus();
     },
+    undo: () => model.undo(),
+    redo: () => model.redo(),
     layout: () => editor?.layout(),
     dispose() {
       suspend();

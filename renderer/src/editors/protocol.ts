@@ -69,6 +69,8 @@ export interface EditorAdapter {
   /** Suspend the view while preserving the document model and undo history. */
   visible?(value: boolean): void;
   focus(): void;
+  undo(): void;
+  redo(): void;
   layout(): void;
   dispose(): void;
 }

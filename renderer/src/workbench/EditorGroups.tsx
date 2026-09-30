@@ -110,10 +110,10 @@ function GroupLayout(props: Props) {
             <div class="empty-editor">
               <div class="empty-monogram">M</div>
               <h1>Room for your next idea.</h1>
-              <p>Open a file, create a note, or move a tab here.</p>
+              <p>Open a file, create a {w.state.mode === "knowledge" ? "note" : "code file"}, or move a tab here.</p>
               <button class="primary-button" onClick={() => {
                 w.focusGroup(group.id); props.onCreate();
-              }}><Icon name="plus" />New note</button>
+              }}><Icon name="plus" />{w.state.mode === "knowledge" ? "New note" : "New code file"}</button>
               <button class="text-button" onClick={props.showPalette}>Find a file or command <kbd>Ctrl K</kbd></button>
             </div>
           </Show>

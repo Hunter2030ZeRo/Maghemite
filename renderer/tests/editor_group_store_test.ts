@@ -1,5 +1,5 @@
 /// <reference lib="dom" />
-import { deepStrictEqual as eq, ok } from "node:assert/strict";
+import { deepStrictEqual as eq, ok, throws } from "node:assert/strict";
 import { createRoot } from "solid-js";
 import { createWorkspace } from "../src/workspace/store.ts";
 import { decodeSession } from "../src/workspace/model.ts";
@@ -98,5 +98,22 @@ Deno.test("real workspace shares edits and emits one document change for duplica
     eq(changes, 1);
     eq(w.state.documents.filter((item) => item.id === doc.id).map((item) => item.content), ["shared"]);
     eq(w.state.tabs.filter((tab) => tab.documentId === doc.id).length, 2);
+  } finally { setup.close(); }
+});
+
+Deno.test("Develop creates code drafts and Knowledge creates Markdown notes", () => {
+  const setup = fixture(), w = setup.workspace;
+  try {
+    w.mode("develop");
+    w.newCode("src/example.py");
+    eq(w.activeDocument()?.path, "src/example.py");
+    eq(w.activeDocument()?.kind, "code");
+    eq(w.activeDocument()?.language, "Python");
+    throws(() => w.newCode("notes/example.md"), /Switch to Knowledge/);
+    throws(() => w.newCode("src/example.py"), /already open/);
+    w.mode("knowledge");
+    w.newNote();
+    ok(w.activeDocument()?.path.endsWith(".md"));
+    eq(w.activeDocument()?.kind, "note");
   } finally { setup.close(); }
 });

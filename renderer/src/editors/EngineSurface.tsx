@@ -35,6 +35,14 @@ export function EngineSurface(
   let element!: HTMLDivElement,
     adapter: EditorAdapter | undefined,
     disposed = false;
+  const menuEdit = (event: Event) => {
+    if (!props.focused) return;
+    const action = (event as CustomEvent<"undo" | "redo">).detail;
+    if (action === "undo") adapter?.undo();
+    if (action === "redo") adapter?.redo();
+  };
+  window.addEventListener("maghemite:editor-edit", menuEdit);
+  onCleanup(() => window.removeEventListener("maghemite:editor-edit", menuEdit));
   const [ready, setReady] = createSignal(false),
     [error, setError] = createSignal("");
   let observer: MutationObserver | undefined;

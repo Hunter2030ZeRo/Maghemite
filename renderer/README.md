@@ -36,6 +36,9 @@ deno task test
 - Develop / Knowledge perspectives keep document identity, open tabs, content,
   caret, and mounted view scroll position. The perspective changes navigation;
   it does not recreate the editor workspace.
+- File, Edit, and View menus expose the common workspace actions. New File
+  creates a code draft with a chosen path in Develop or a Markdown note in
+  Knowledge. `Ctrl/Cmd+N` follows the active perspective.
 - Explorer folders, code/note text editing, a safe limited Markdown preview,
   workspace text search, and a searchable keyboard command palette.
 - Markdown outline and wiki-link backlinks derived from current note content. An

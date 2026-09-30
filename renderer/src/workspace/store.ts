@@ -451,6 +451,12 @@ export function createWorkspace() {
       !path || path.startsWith("/") || path.includes("\\") ||
       path.split("/").some((p) => !p || p === "." || p === "..")
     ) throw new Error("Use a workspace-relative file path");
+    if (state.mode === "knowledge" && !/\.mdx?$/i.test(path)) {
+      throw new Error("Knowledge files must use .md or .mdx");
+    }
+    if (state.mode === "develop" && /\.mdx?$/i.test(path)) {
+      throw new Error("Switch to Knowledge to create a Markdown note");
+    }
     application.invoke(
       "documents.create",
       { path, text: "" },
@@ -488,6 +494,29 @@ export function createWorkspace() {
     set("documents", (d) => [...d, doc]);
     open(doc.id);
     notify("Created a note draft. Save to keep it in the workspace.");
+  }
+  function newCode(path: string) {
+    if (state.mode !== "develop") {
+      throw new Error("Switch to Develop to create a code file");
+    }
+    const value = path.trim();
+    if (
+      !value || value.startsWith("/") || value.includes("\\") ||
+      value.split("/").some((part) => !part || part === "." || part === "..")
+    ) throw new Error("Use a workspace-relative file path");
+    if (/\.mdx?$/i.test(value)) {
+      throw new Error("Switch to Knowledge to create a Markdown note");
+    }
+    if (state.documents.some((document) => document.path === value)) {
+      throw new Error("A file with this path is already open");
+    }
+    if (state.documents.length >= 100) {
+      throw new Error("This preview supports up to 100 documents.");
+    }
+    const doc = documentFromText(value, "");
+    set("documents", (documents) => [...documents, doc]);
+    open(doc.id);
+    notify("Created a code draft. Save to keep it in the workspace.");
   }
   async function importFiles(files: File[]) {
     let bytes = state.documents.reduce(
@@ -664,6 +693,7 @@ export function createWorkspace() {
     checkDiskFiles,
     openSettings,
     createFile,
+    newCode,
     contributionRevision,
     requestedSelection,
     viewEpoch,

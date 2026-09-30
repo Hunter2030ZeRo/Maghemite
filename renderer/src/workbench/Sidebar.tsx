@@ -14,7 +14,7 @@ export function Sidebar(
     openFolder: () => void;
     pickFiles: () => void;
     openDocument: (id: string, line?: number) => void;
-    newNote: () => void;
+    newFile: () => void;
   },
 ) {
   const w = props.workspace;
@@ -60,7 +60,7 @@ export function Sidebar(
           }[w.activity()]}
         </span>
         <div class="heading-actions">
-          <IconButton name="plus" label="New note" onClick={props.newNote} />
+          <IconButton name="plus" label={w.state.mode === "knowledge" ? "New note" : "New code file"} onClick={props.newFile} />
           <IconButton
             name="folder"
             label="Open folder"

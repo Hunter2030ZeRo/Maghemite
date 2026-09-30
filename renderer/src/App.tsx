@@ -15,6 +15,7 @@ import { Sidebar } from "./workbench/Sidebar";
 import { Inspector } from "./workbench/Inspector";
 import { EditorGroups } from "./workbench/EditorGroups";
 import { OpenFolder } from "./workbench/OpenFolder";
+import { NewCodeFile } from "./workbench/NewCodeFile";
 import type { PreferenceSnapshot } from "../../src/shared/preferences.ts";
 import { BottomPanel } from "./workbench/BottomPanel";
 import { type Command, CommandPalette } from "./workbench/CommandPalette";
@@ -60,6 +61,8 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
   };
   const [palette, setPalette] = createSignal(false);
   const [folderDialog, setFolderDialog] = createSignal(false);
+  const [codeDialog, setCodeDialog] = createSignal(false);
+  const [openMenu, setOpenMenu] = createSignal<"file" | "edit" | "view" | null>(null);
   const [changingFolder, setChangingFolder] = createSignal(false);
   function openFolder() {
     setPalette(false);
@@ -285,9 +288,19 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
     setCursor("");
     if (line) queueMicrotask(() => jump(line));
   }
-  function newNote() {
-    w.newNote();
+  function newFile() {
+    setPalette(false);
+    setOpenMenu(null);
+    if (w.state.mode === "knowledge") w.newNote();
+    else setCodeDialog(true);
     setDrawer(null);
+  }
+  function editorEdit(action: "undo" | "redo") {
+    window.dispatchEvent(new CustomEvent("maghemite:editor-edit", { detail: action }));
+  }
+  function menuAction(action: () => void) {
+    setOpenMenu(null);
+    action();
   }
   const commands = createMemo<Command[]>(() => [
     {
@@ -389,10 +402,11 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
     })),
     {
       id: "new",
-      label: "Create a new note",
+      label: w.state.mode === "knowledge" ? "Create a new note" : "Create a new code file",
       detail: "Workspace",
       icon: "plus",
-      run: newNote,
+      shortcut: "Ctrl N",
+      run: newFile,
     },
     {
       id: "open",
@@ -507,7 +521,7 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
       e.stopPropagation();
       return;
     }
-    if (e.isComposing || folderDialog() || changingFolder()) return;
+    if (e.isComposing || folderDialog() || codeDialog() || changingFolder()) return;
     if ((e.ctrlKey || e.metaKey) && e.code === "Backquote") {
       e.preventDefault();
       e.stopPropagation();
@@ -535,10 +549,16 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
     if (e.key === "Escape") {
       setPalette(false);
       setDrawer(null);
+      setOpenMenu(null);
     }
     if (!e.ctrlKey && !e.metaKey) return;
     const key = e.key.toLowerCase();
-    if (["k", "p", "s", "b", "j", ","].includes(key)) e.stopPropagation();
+    if (["k", "p", "s", "b", "j", "n", ","].includes(key)) e.stopPropagation();
+    if (key === "n") {
+      e.preventDefault();
+      newFile();
+      return;
+    }
     if (key === "k" || key === "p") {
       e.preventDefault();
       showPalette();
@@ -572,9 +592,14 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
   };
   window.addEventListener("keydown", keydown, true);
   window.addEventListener("resize", resize);
+  const outsideMenu = (event: PointerEvent) => {
+    if (!(event.target as Element)?.closest?.(".app-menu")) setOpenMenu(null);
+  };
+  window.addEventListener("pointerdown", outsideMenu);
   onCleanup(() => {
     window.removeEventListener("keydown", keydown, true);
     window.removeEventListener("resize", resize);
+    window.removeEventListener("pointerdown", outsideMenu);
   });
   const activities: { id: Activity; name: IconName; label: string }[] = [
     { id: "files", name: "files", label: "Explorer" },
@@ -586,13 +611,50 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
     <div class="app-shell" data-theme={theme().id}>
       <a class="skip-link" href="#editor-area">Skip to editor</a>
       <header class="titlebar">
-        <div class="app-brand">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2 21 7v10l-9 5-9-5V7z" />
-            <path d="m7 16 0-8 5 5 5-5v8" />
-          </svg>
-          <span>Maghemite</span>
-          <span class="preview-badge">preview</span>
+        <div class="titlebar-start">
+          <div class="app-brand">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2 21 7v10l-9 5-9-5V7z" />
+              <path d="m7 16 0-8 5 5 5-5v8" />
+            </svg>
+            <span>Maghemite</span>
+            <span class="preview-badge">preview</span>
+          </div>
+          <nav class="app-menus" aria-label="Application menu">
+            <div class="app-menu">
+              <button aria-expanded={openMenu() === "file"} onClick={() => setOpenMenu(openMenu() === "file" ? null : "file")}>File</button>
+              <Show when={openMenu() === "file"}>
+                <div class="app-menu-panel">
+                  <button onClick={() => menuAction(newFile)}>{w.state.mode === "knowledge" ? "New note" : "New code file"} <kbd>Ctrl N</kbd></button>
+                  <button onClick={() => menuAction(openFolder)}>Open folder…</button>
+                  <button onClick={() => menuAction(() => filePicker.click())}>Import text files…</button>
+                  <button disabled={!w.activeDocument()} onClick={() => menuAction(() => { void w.save(); })}>Save file <kbd>Ctrl S</kbd></button>
+                </div>
+              </Show>
+            </div>
+            <div class="app-menu">
+              <button aria-expanded={openMenu() === "edit"} onClick={() => setOpenMenu(openMenu() === "edit" ? null : "edit")}>Edit</button>
+              <Show when={openMenu() === "edit"}>
+                <div class="app-menu-panel">
+                  <button disabled={!w.activeDocument()} onClick={() => menuAction(() => editorEdit("undo"))}>Undo <kbd>Ctrl Z</kbd></button>
+                  <button disabled={!w.activeDocument()} onClick={() => menuAction(() => editorEdit("redo"))}>Redo <kbd>Ctrl Shift Z</kbd></button>
+                  <button onClick={() => menuAction(openSearch)}>Find in workspace <kbd>Ctrl Shift F</kbd></button>
+                  <button onClick={() => menuAction(() => showPalette())}>Command palette <kbd>Ctrl K</kbd></button>
+                </div>
+              </Show>
+            </div>
+            <div class="app-menu">
+              <button aria-expanded={openMenu() === "view"} onClick={() => setOpenMenu(openMenu() === "view" ? null : "view")}>View</button>
+              <Show when={openMenu() === "view"}>
+                <div class="app-menu-panel">
+                  <button onClick={() => menuAction(() => toggle("primary"))}>{primary() ? "Hide" : "Show"} explorer</button>
+                  <button onClick={() => menuAction(() => toggle("secondary"))}>{secondary() ? "Hide" : "Show"} document context</button>
+                  <button onClick={() => menuAction(() => w.layout({ bottom: !w.state.layout.bottom }))}>{w.state.layout.bottom ? "Hide" : "Show"} bottom panel</button>
+                  <button onClick={() => menuAction(() => showPalette("themes"))}>Choose theme…</button>
+                </div>
+              </Show>
+            </div>
+          </nav>
         </div>
         <button class="command-trigger" onClick={() => showPalette()}>
           <Icon name="search" />
@@ -743,7 +805,7 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
               openFolder={openFolder}
               pickFiles={() => filePicker.click()}
               openDocument={openDocument}
-              newNote={newNote}
+              newFile={newFile}
             />
             <ModuleViews
               workspace={w}
@@ -766,7 +828,7 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
           tabindex="-1"
           aria-label="Editor workspace"
         >
-          <EditorGroups workspace={w} themes={availableThemes()} onCreate={newNote}
+          <EditorGroups workspace={w} themes={availableThemes()} onCreate={newFile}
             showPalette={() => showPalette()} setCursor={setCursor} execute={executeModule} />
           <BottomPanel
             workspace={w}
@@ -862,6 +924,9 @@ export default function App(props: { initialThemeId?: ThemeId } = {}) {
             if (warning) w.notify(warning);
           }}
         />
+      </Show>
+      <Show when={codeDialog()}>
+        <NewCodeFile workspace={w} close={() => setCodeDialog(false)} />
       </Show>
       <Show when={changingFolder()}>
         <div class="folder-switch-overlay" role="status" aria-live="polite">
