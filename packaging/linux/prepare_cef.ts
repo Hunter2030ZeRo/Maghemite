@@ -1,6 +1,7 @@
 import { dirname, join } from "node:path";
 
 const revision = "1fe87874288e8359fa3de04d18cc14f56957b000";
+const cacheRevision = `${revision}:stripped-v1`;
 const image = "maghemite-cef-builder:ubuntu22";
 
 async function run(command: string, args: string[], cwd: string) {
@@ -43,7 +44,7 @@ export async function preparePatchedCef(root: string): Promise<string> {
   const marker = join(directory, ".maghemite-ready");
   if (
     await exists(binary) && await exists(marker) &&
-    (await Deno.readTextFile(marker)).trim() === revision
+    (await Deno.readTextFile(marker)).trim() === cacheRevision
   ) return directory;
 
   await Deno.mkdir(dirname(directory), { recursive: true });
@@ -94,6 +95,19 @@ export async function preparePatchedCef(root: string): Promise<string> {
   if (!(await exists(binary))) {
     throw new Error("Patched CEF runtime was not built");
   }
-  await Deno.writeTextFile(marker, `${revision}\n`);
+  await run("docker", [
+    "run",
+    "--rm",
+    "--user",
+    `${Deno.uid()}:${Deno.gid()}`,
+    "-v",
+    `${directory}:/src`,
+    image,
+    "strip",
+    "--strip-unneeded",
+    "/src/cef/build/Release/libcef.so",
+  ], root);
+  await Deno.remove(join(directory, "vendor"), { recursive: true });
+  await Deno.writeTextFile(marker, `${cacheRevision}\n`);
   return directory;
 }

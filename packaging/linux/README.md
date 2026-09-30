@@ -27,8 +27,9 @@ directory must not already exist. Do not run two packaging tasks concurrently.
 
 Native Linux builds pin Laufey 0.7.0 and apply `cef-new-file.patch` so Ctrl+N
 reaches Maghemite instead of opening a Chromium window. The first build compiles
-the launcher in the Ubuntu 22.04 container and caches it under
-`$XDG_CACHE_HOME/maghemite` (or `~/.cache/maghemite`). Later builds reuse it.
+the launcher in the Ubuntu 22.04 container, strips CEF debug symbols, and
+caches it under `$XDG_CACHE_HOME/maghemite` (or `~/.cache/maghemite`). Later
+builds reuse it.
 `LAUFEY_DEV_DIR` can point to an already patched Laufey checkout.
 
 Version comes from the root `deno.json`. Package release, maintainer and the current
@@ -36,13 +37,13 @@ license marker live in `metadata.json`. This repository has no declared project
 license yet; the marker does not grant one. Fill in the actual release licensing
 and maintainer contact before public publication.
 
-Outputs for x86_64, version 0.1.0, package release 13:
+Outputs for x86_64, version 0.1.0, package release 14:
 
 | Artifact | Location |
 | --- | --- |
-| DEB | `build/packages/maghemite_0.1.0-13_amd64.deb` |
-| RPM | `build/packages/maghemite-0.1.0-13.x86_64.rpm` |
-| Arch | `build/packages/maghemite-0.1.0-13-x86_64.pkg.tar.zst` |
+| DEB | `build/packages/maghemite_0.1.0-14_amd64.deb` |
+| RPM | `build/packages/maghemite-0.1.0-14.x86_64.rpm` |
+| Arch | `build/packages/maghemite-0.1.0-14-x86_64.pkg.tar.zst` |
 | Portable AppImage | `build/Maghemite.AppImage` (when requested) |
 | Local PKGBUILD + `.SRCINFO` + checksummed source archive | `build/linux/arch/` |
 
