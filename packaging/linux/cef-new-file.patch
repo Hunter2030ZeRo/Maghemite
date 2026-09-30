@@ -1,0 +1,30 @@
+diff --git a/cef/src/app.cc b/cef/src/app.cc
+--- a/cef/src/app.cc
++++ b/cef/src/app.cc
+@@ -261,1 +261,18 @@
++bool LaufeyHandler::OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
++                                  const CefKeyEvent& event,
++                                  CefEventHandle os_event,
++                                  bool* is_keyboard_shortcut) {
++  if (event.type != KEYEVENT_RAWKEYDOWN ||
++      event.windows_key_code != 'N' ||
++      !(event.modifiers & EVENTFLAG_CONTROL_DOWN) ||
++      (event.modifiers & (EVENTFLAG_SHIFT_DOWN | EVENTFLAG_ALT_DOWN |
++                          EVENTFLAG_COMMAND_DOWN))) {
++    return false;
++  }
++  uint32_t wid = RuntimeLoader::GetInstance()->GetLaufeyIdForBrowser(browser);
++  RuntimeLoader::GetInstance()->DispatchKeyboardEvent(
++      wid, LAUFEY_KEY_PRESSED, "n", "KeyN", LAUFEY_MOD_CONTROL, false);
++  return true;
++}
++
+ bool LaufeyHandler::OnKeyEvent(CefRefPtr<CefBrowser> browser,
+diff --git a/cef/src/app.h b/cef/src/app.h
+--- a/cef/src/app.h
++++ b/cef/src/app.h
+@@ -173,1 +173,4 @@
++  bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event,
++                     CefEventHandle os_event,
++                     bool* is_keyboard_shortcut) override;
+   bool OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event,

@@ -5,15 +5,15 @@ case "$1" in
   deb)
     package=$(printf '%s\n' /packages/maghemite_*.deb | sort -V | tail -n 1)
     apt-get update -qq
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "$package" python3 xvfb xauth
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "$package" python3 xvfb xauth xdotool
     ;;
   rpm)
     package=$(printf '%s\n' /packages/maghemite-*.rpm | sort -V | tail -n 1)
-    dnf install -y "$package" python3 xorg-x11-server-Xvfb
+    dnf install -y "$package" python3 xorg-x11-server-Xvfb xdotool
     ;;
   arch)
     package=$(printf '%s\n' /packages/maghemite-*.pkg.tar.zst | sort -V | tail -n 1)
-    pacman -Syu --noconfirm python xorg-server-xvfb gtk3 nss nspr alsa-lib libx11 libxi libxcomposite libxdamage libxext libxfixes libxrandr libxkbcommon mesa pango cairo at-spi2-core dbus expat libxcb libdrm libcups systemd-libs
+    pacman -Syu --noconfirm python xorg-server-xvfb xdotool gtk3 nss nspr alsa-lib libx11 libxi libxcomposite libxdamage libxext libxfixes libxrandr libxkbcommon mesa pango cairo at-spi2-core dbus expat libxcb libdrm libcups systemd-libs
     pacman -U --noconfirm "$package"
     ;;
   *) exit 2 ;;

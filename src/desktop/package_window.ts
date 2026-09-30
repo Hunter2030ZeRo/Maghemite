@@ -25,6 +25,15 @@ export async function packageWindow(
     width: 1440,
     height: 960,
   });
+  window.addEventListener("keydown", (event) => {
+    if (
+      !event.ctrlKey || event.altKey || event.metaKey || event.shiftKey ||
+      event.code !== "KeyN"
+    ) return;
+    void window.executeJs(
+      `(document.activeElement ?? window).dispatchEvent(new KeyboardEvent("keydown", { key: "n", code: "KeyN", ctrlKey: true, bubbles: true, cancelable: true }))`,
+    ).catch((error) => console.error("New file shortcut failed:", error));
+  });
   window.addEventListener("close", () => {
     void desktop.stop();
   });

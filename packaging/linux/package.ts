@@ -194,7 +194,7 @@ export async function packageLinux(
   }
   await write(
     join(app, "maghemite"),
-    '#!/bin/sh\nset -eu\napp_dir=$(dirname -- "$(readlink -f -- "$0")")\nexec "$app_dir/Maghemite" "$@"\n',
+    '#!/bin/sh\nset -eu\napp_dir=$(dirname -- "$(readlink -f -- "$0")")\nexport LAUFEY_APP_ID=dev.maghemite.app\nexec "$app_dir/Maghemite" "$@"\n',
   );
   await Deno.chmod(join(app, "maghemite"), 0o755);
   await Deno.mkdir(join(stage, "usr/bin"), { recursive: true });

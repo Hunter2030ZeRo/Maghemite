@@ -1,6 +1,7 @@
 import { basename, dirname, join, resolve } from "node:path";
 import { filePath } from "../modules/paths.ts";
 import { packageLinux } from "../../packaging/linux/package.ts";
+import { preparePatchedCef } from "../../packaging/linux/prepare_cef.ts";
 import { sha256 } from "./package_assets.ts";
 const root = filePath(new URL("../../", import.meta.url));
 const option = (name: string) =>
@@ -49,10 +50,16 @@ if (!ptyLibrary || !(await Deno.stat(ptyLibrary)).isFile) {
     "Pass --pty-library=/absolute/path/to/deno-pty-ffi-0.42.0-library (prepared by desktop:prepare-pty)",
   );
 }
-async function run(command: string, args: string[], cwd = root) {
+async function run(
+  command: string,
+  args: string[],
+  cwd = root,
+  env?: Record<string, string>,
+) {
   const result = await new Deno.Command(command, {
     args,
     cwd,
+    env,
     stdin: "inherit",
     stdout: "inherit",
     stderr: "inherit",
@@ -154,17 +161,24 @@ const permissions = [
   "--allow-net=127.0.0.1",
   "--no-prompt",
 ];
+let cefDirectory: string | undefined;
 if (Deno.build.os === "linux" && formats.some((f) => f !== "appimage")) {
+  cefDirectory = await preparePatchedCef(root);
   const bundle = join(root, "build", "linux", "Maghemite");
-  await run(Deno.execPath(), [
-    "desktop",
-    "--backend=cef",
-    "--exclude-unused-npm",
-    ...permissions,
-    "--output",
-    bundle,
-    "src/desktop/installed.ts",
-  ]);
+  await run(
+    Deno.execPath(),
+    [
+      "desktop",
+      "--backend=cef",
+      "--exclude-unused-npm",
+      ...permissions,
+      "--output",
+      bundle,
+      "src/desktop/installed.ts",
+    ],
+    root,
+    { LAUFEY_DEV_DIR: cefDirectory },
+  );
   const destination = join(bundle, "assets");
   await Deno.remove(destination, { recursive: true }).catch((error) => {
     if (!(error instanceof Deno.errors.NotFound)) throw error;
@@ -178,16 +192,21 @@ if (Deno.build.os === "linux" && formats.some((f) => f !== "appimage")) {
   });
 }
 if (Deno.build.os !== "linux" || formats.includes("appimage")) {
-  await run(Deno.execPath(), [
-    "desktop",
-    "--backend=cef",
-    "--exclude-unused-npm",
-    "--include=build/desktop-assets",
-    ...permissions,
-    "--output",
-    requestedOutput ?? output,
-    "src/desktop/packaged.ts",
-  ]);
+  await run(
+    Deno.execPath(),
+    [
+      "desktop",
+      "--backend=cef",
+      "--exclude-unused-npm",
+      "--include=build/desktop-assets",
+      ...permissions,
+      "--output",
+      requestedOutput ?? output,
+      "src/desktop/packaged.ts",
+    ],
+    root,
+    cefDirectory ? { LAUFEY_DEV_DIR: cefDirectory } : undefined,
+  );
   const artifact = requestedOutput ?? output;
   if ((await Deno.stat(artifact)).isFile) {
     await Deno.writeTextFile(

@@ -8,7 +8,7 @@ Builds stay local: these tasks do not install Maghemite on the host or publish i
 Requirements on the target Linux architecture:
 
 - Deno with `deno desktop` (currently exercised with 2.9.7 / CEF 0.7.0), Rust/Cargo.
-- Docker daemon access; Ubuntu/Fedora/Arch packaging tools run in containers.
+- Docker daemon access and Git; the patched CEF launcher and packaging tools run in containers.
 - GNU coreutils, GNU tar, zstd, binutils (`readelf`), and desktop-file-utils.
 - deno-pty-ffi **0.42.0** native library, prepared by `deno task desktop:prepare-pty`.
 
@@ -25,18 +25,24 @@ deno task desktop:package --pty-library=/absolute/path/to/pty-library --formats=
 creates a relocatable installation tree at `build/linux/root`; an explicit output
 directory must not already exist. Do not run two packaging tasks concurrently.
 
+Native Linux builds pin Laufey 0.7.0 and apply `cef-new-file.patch` so Ctrl+N
+reaches Maghemite instead of opening a Chromium window. The first build compiles
+the launcher in the Ubuntu 22.04 container and caches it under
+`$XDG_CACHE_HOME/maghemite` (or `~/.cache/maghemite`). Later builds reuse it.
+`LAUFEY_DEV_DIR` can point to an already patched Laufey checkout.
+
 Version comes from the root `deno.json`. Package release, maintainer and the current
 license marker live in `metadata.json`. This repository has no declared project
 license yet; the marker does not grant one. Fill in the actual release licensing
 and maintainer contact before public publication.
 
-Outputs for x86_64, version 0.1.0, package release 5:
+Outputs for x86_64, version 0.1.0, package release 13:
 
 | Artifact | Location |
 | --- | --- |
-| DEB | `build/packages/maghemite_0.1.0-5_amd64.deb` |
-| RPM | `build/packages/maghemite-0.1.0-5.x86_64.rpm` |
-| Arch | `build/packages/maghemite-0.1.0-5-x86_64.pkg.tar.zst` |
+| DEB | `build/packages/maghemite_0.1.0-13_amd64.deb` |
+| RPM | `build/packages/maghemite-0.1.0-13.x86_64.rpm` |
+| Arch | `build/packages/maghemite-0.1.0-13-x86_64.pkg.tar.zst` |
 | Portable AppImage | `build/Maghemite.AppImage` (when requested) |
 | Local PKGBUILD + `.SRCINFO` + checksummed source archive | `build/linux/arch/` |
 

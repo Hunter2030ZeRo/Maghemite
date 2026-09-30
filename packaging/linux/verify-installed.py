@@ -14,7 +14,7 @@ workspace=base/'QA workspace';workspace.mkdir(exist_ok=True)
 profile=base/'QA profile';profile.mkdir(exist_ok=True)
 (profile/'keep-after-uninstall').write_text('preserve user data')
 for p in [base,*base.rglob('*')]:os.chown(p,1000,1000)
-env={**os.environ,'HOME':str(base),'XDG_DATA_HOME':str(base/'data'),'XDG_CACHE_HOME':str(base/'cache'),'DISPLAY':':99','GSETTINGS_BACKEND':'memory'}
+env={**os.environ,'HOME':str(base),'XDG_DATA_HOME':str(base/'data'),'XDG_CACHE_HOME':str(base/'cache'),'DISPLAY':':99','GSETTINGS_BACKEND':'memory','LAUFEY_REMOTE_DEBUGGING_PORT':'9222'}
 def demote():
  os.setgroups([]);os.setgid(1000);os.setuid(1000)
 # The runtime and both native services must load under the target distribution.
@@ -33,17 +33,35 @@ try:
   try:
    url=None
    for _ in range(150):
-    text=log.read_text(errors='replace');match=re.search(r'Maghemite: (http://127.0.0.1:\d+/)',text)
-    if match:url=match[1];break
-    if p.poll() is not None:raise AssertionError(text)
+    text=log.read_text(errors='replace')
+    match=re.search(r'Maghemite: (http://127.0.0.1:\d+/)',text)
+    if match:
+     url=match[1]
+     break
+    if p.poll() is not None:
+     raise AssertionError(text)
     time.sleep(.2)
    assert url,log.read_text(errors='replace')
    with urllib.request.urlopen(url,timeout=10) as response:
     assert response.status==200 and b'<div id="root">' in response.read()
    req=urllib.request.Request(url+'api/workbench/session',headers={'X-Maghemite-Client':'1'})
-   with urllib.request.urlopen(req,timeout=10) as response:assert json.load(response)['token']
+   with urllib.request.urlopen(req,timeout=10) as response:
+    assert json.load(response)['token']
    time.sleep(3)
    assert p.poll() is None,log.read_text(errors='replace')
+   windows=subprocess.check_output(['xdotool','search','--onlyvisible','--pid',str(p.pid)],env=env,text=True).splitlines()
+   assert windows, 'No visible Maghemite window'
+   window=windows[0]
+   subprocess.run(['xdotool','windowfocus','--sync',window],env=env,check=True,timeout=5)
+   subprocess.run(['xdotool','key','--clearmodifiers','ctrl+n'],env=env,check=True,timeout=5)
+   time.sleep(1)
+   after=subprocess.check_output(['xdotool','search','--onlyvisible','--pid',str(p.pid)],env=env,text=True).splitlines()
+   assert after==windows, f'Ctrl+N opened another Chromium window: {windows} -> {after}'
+   inspection=subprocess.run([str(assets/'deno'),'run','--allow-net=127.0.0.1','/recipes/inspect_renderer.ts'],env=env,preexec_fn=demote,capture_output=True,text=True,timeout=12)
+   assert inspection.returncode==0,inspection.stderr
+   assert inspection.stdout.strip()=='true',f'Ctrl+N did not open New code file: {inspection.stdout} {inspection.stderr}'
+   window_class=subprocess.check_output(['xdotool','getwindowclassname',window],env=env,text=True).strip()
+   assert window_class=='dev.maghemite.app',f'Native window class is {window_class}'
   finally:
    if p.poll() is None:
     os.killpg(p.pid,signal.SIGINT)
